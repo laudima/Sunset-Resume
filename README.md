@@ -1,8 +1,8 @@
 ## Development
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
+git clone https://github.com/laudima/Sunset-Resume.git
+cd Sunset Resume
 npm i
 npm run dev
 ```
