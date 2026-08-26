@@ -11,7 +11,8 @@ export function SiteFooter() {
               Laura Dimayuga
             </p>
             <p className="mt-1 max-w-xs text-sm text-muted-foreground">
-              Building calm software between design and systems.
+              Studying computation, explainability, and the philosophy of
+              technology.
             </p>
           </div>
 
@@ -19,8 +20,8 @@ export function SiteFooter() {
             {[
               { to: "/", label: "Home" },
               { to: "/projects", label: "Projects" },
+              { to: "/gallery", label: "Gallery" },
               { to: "/cv", label: "CV" },
-              { to: "/blog", label: "Blog" },
               { to: "/contact", label: "Contact" },
             ].map((l) => (
               <Link

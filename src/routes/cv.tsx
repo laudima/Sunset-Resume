@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { experience, skillGroups, education, profile } from "@/lib/content";
+import { experience, skillGroups, education, timeline, languages, profile } from "@/lib/content";
 
 export const Route = createFileRoute("/cv")({
   head: () => ({
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/cv")({
       {
         name: "description",
         content:
-          "Experience, skills, and education for Laura Dimayuga, software engineer & designer.",
+          "Experience, skills, and education for Laura Dimayuga, Computer Science student & explainable AI researcher.",
       },
       {
         property: "og:title",
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/cv")({
       {
         property: "og:description",
         content:
-          "Experience, skills, and education for Laura Dimayuga, software engineer & designer.",
+          "Experience, skills, and education for Laura Dimayuga, Computer Science student & explainable AI researcher.",
       },
     ],
   }),
@@ -33,11 +33,13 @@ function CvPage() {
           Experience & skills
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-          Eight years building software across fintech, data, and design
-          systems. Currently based in {profile.location}.
+          Finishing my Computer Science thesis at UNAM, working at the
+          intersection of Causal Inference and AI. Currently
+          based in {profile.location}.
         </p>
         <a
-          href="#"
+          href="/Laura_CV_complete.pdf"
+          download
           className="bg-primary text-primary-foreground hover:bg-primary/90 mt-8 inline-flex items-center rounded-full px-6 py-3 text-sm font-medium transition-colors"
         >
           Download PDF
@@ -66,7 +68,16 @@ function CvPage() {
                 <h3 className="font-display text-lg font-semibold text-foreground">
                   {job.role}
                 </h3>
-                <p className="text-sunset text-sm">{job.org}</p>
+                {job.link ? (
+                  <a
+                    href={job.link}
+                    className="text-sunset text-sm transition-opacity hover:opacity-70"
+                  >
+                    {job.org}
+                  </a>
+                ) : (
+                  <p className="text-sunset text-sm">{job.org}</p>
+                )}
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                   {job.description}
                 </p>
@@ -133,6 +144,42 @@ function CvPage() {
             </div>
           </div>
         )}
+      </section>
+
+      <section className="mt-20">
+        <h2 className="font-display text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+          Activities & milestones
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+          A fuller timeline: competitions, mentoring, research, and
+          organizing.
+        </p>
+        <ol className="relative mt-10 border-l border-border pl-8">
+          {timeline.map((entry, i) => {
+            const showYear =
+              i === 0 || timeline[i - 1]?.year !== entry.year;
+            return (
+              <li key={`${entry.year}-${entry.title}-${i}`} className="relative pb-8 last:pb-0">
+                <span className="absolute -left-[calc(2rem+4.5px)] top-1.5 h-2.5 w-2.5 rounded-full bg-sunset" />
+                {showYear && (
+                  <p className="font-display text-2xl font-semibold text-foreground">
+                    {entry.year}
+                  </p>
+                )}
+                <div className={showYear ? "mt-3" : ""}>
+                  <p className="text-xs text-muted-foreground">{entry.month}</p>
+                  <h3 className="mt-1 text-base font-semibold text-foreground">
+                    {entry.title}
+                  </h3>
+                  <p className="text-sunset text-sm">{entry.role}</p>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                    {entry.description}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
       </section>
     </div>
   );

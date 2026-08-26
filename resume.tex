@@ -1,0 +1,885 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={laudimaCV},
+    pdfauthor={Laura Itzel Rodríguez Dimayuga},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Laura Itzel Rodríguez Dimayuga - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0.2 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in Jan 2026}\hspace{\widthof{Last updated in June 2025}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Laura Itzel Rodríguez Dimayuga}
+
+        \vspace{0.3 cm}
+
+        \normalsize
+        \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm} Mexico City}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{mailto: laudima@ciencias.unam.mx}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}laudima@ciencias.unam.mx}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+52 777 476 1814}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}:+52 777 476 1814}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/laudima}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}laudima}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/laudima}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}laudima}}%
+    \end{header}
+    \vspace{0.3 cm - 0.3 cm}
+    \section{Research Interest}
+            \begin{onecolentry}
+            As I complete my final semester in Computer Science, I am eager to pursue graduate studies that combine artificial intelligence with the ethical considerations it demands. My academic interests center on computational theory, critical theory focused on philosophy of technology, and developing explainable AI frameworks.
+        \end{onecolentry}
+    
+    \section{Education}
+        \begin{twocolentry}{
+        \textit{Aug 2021 – Jun 2026}}
+            \textbf{Bachelor’s Degree in Computer Science}
+
+            \textit{Universidad Nacional Autónoma de México (UNAM)}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item GPA: 94/100 
+                \item \textbf{Fields of Interest:} Theoretical Computing,  AI, Parallel Computing, Philosophy of Science, Logic
+                \item \href{https://philcomp.org/group/}{Research Member at the Philosophy of Computation Group since 2024}
+            \end{highlights}
+        \end{onecolentry}
+        
+    
+    \section{Work Experience}
+    
+    % \begin{twocolentry}{
+    % \textit{May 2025 – Present}}
+    %     \textbf{CTO \& Co-Founder} \\
+    %     \textit{Renaissance Startup}
+    % \end{twocolentry}
+    % \begin{onecolentry}
+    %     \begin{itemize}
+    %         \item Designed AI agent workflows using OpenAI, Claude, and DeepSeek for business automation
+    %         \item Delivered operational workflows with AI for five businesses
+    %         \item Sold business proposal automation, customer service bot with CRM integration, and presentation proposal systems
+    %         \item Currently developing a tax collection and enforcement system software project
+    %     \end{itemize}
+    % \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Dec 2025 – Present}}
+        \textbf{Software Quality Engineer Tools} \\
+        \textit{Teradata}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Migrated CI/CD pipelines from GitLab to GitHub Actions for improved automation
+            \item Created automated AI workflows with AI agents and MCPs to reduce UI test creation time
+            \item Developed 500+ automated tests across three projects for bug reporting and quality assurance
+            \item Created CI/CD pipeline for SQL Editor Desktop App using Jenkins, Docker, Kubernetes, and WebDriver IO
+            \item Worked with cloud platforms (AWS, Google Cloud) and monitoring tools (DataDog)
+            \item Implemented multiplatform test frameworks including Playwright, Selenium, and WebDriver IO
+        \end{itemize}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Sept 2023 – Dec 2025}}
+        \textbf{Software DevOps Engineer Intern} \\
+        \textit{Teradata}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Migrated CI/CD pipelines from GitLab to GitHub Actions for improved automation
+            \item Created automated AI workflows with AI agents and MCPs to reduce UI test creation time
+            \item Developed 500+ automated tests across three projects for bug reporting and quality assurance
+            \item Created CI/CD pipeline for SQL Editor Desktop App using Jenkins, Docker, Kubernetes, and WebDriver IO
+            \item Worked with cloud platforms (AWS, Google Cloud) and monitoring tools (DataDog)
+            \item Implemented multiplatform test frameworks including Playwright, Selenium, and WebDriver IO
+        \end{itemize}
+    \end{onecolentry}
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Aug 2023 - Sep 2023}}
+        \textbf{Web Developer} \\
+        \textit{One Connection}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Automated HR system for call centers with cloud-based web app deployed on AWS
+            \item Developed prediction models for optimal communication channels and collection days
+            \item Implemented user response analytics to determine most effective outreach strategies
+        \end{itemize}
+    \end{onecolentry}
+    
+    % \vspace{0.2 cm}
+    % \begin{twocolentry}{
+    % \textit{Feb 2018 – May 2020}}
+    %     \textbf{Data Analysis Intern} \\
+    %     \textit{Professional Tax Consulting}
+    % \end{twocolentry}
+    % \begin{onecolentry}
+    %     \begin{itemize}
+    %         \item Recorded data, performed data analysis, and implemented controls
+    %         \item Created macros in Microsoft Access and Excel for automation
+    %         \item Projected accounting and financial information
+    %         \item Managed company social media presence
+    %     \end{itemize}
+    % \end{onecolentry}
+
+    \section{Selected Honors \& Awards}
+    
+     \begin{twocolentry}{
+        \textit{2024} \\ \textit{Luxor,Egpyt}}
+        \href{https://www.fciencias.unam.mx/noticias/2023/equipo-programacion-fc-rumbo-competencia-mundial-egipto}{\textbf{ICPC World Finals}} \\
+        \vspace{0.2cm}
+          \href{https://drive.google.com/file/d/1de1zP8AoxThJtNgBmeHXgH3xwXBBV7Uf/view?usp=sharing}
+          {Honorable Mention}
+    \end{twocolentry}
+    
+     \begin{twocolentry}{
+        \textit{2023} \\ \textit{Guadalajara, Mexico}}
+        \textbf{ICPC Mexico} \\
+        \vspace{0.2cm}
+        \href{https://drive.google.com/file/d/1p3DPA0NB7yeblg9diYp1kJJbH01cqple/view?usp=sharing}{3rd Place Nationally}
+    \end{twocolentry}
+    
+     \begin{twocolentry}{
+        \textit{2018 – 2021} \\
+        \textit{Cuernavaca, México}} 
+        \textbf{Academic Talent Student Scholarship} \\
+        \vspace{0.2cm}
+        \href{https://drive.google.com/file/d/1wcPCL36j-s8SwQGu1r1BDZKOqyY1JevV/view?usp=sharing}{1 st place over the Academic Aptitude Test} \\ Gained a 60\% scholarship for my superior education
+    \end{twocolentry}
+    \vspace{0.2 cm}
+     \begin{twocolentry}{
+        \textit{2015 – 2025} \\
+        Mexico, City}
+        \textbf{BBVA Foundation Scholar} \\
+        \vspace{0.2cm}
+        \href{https://www.linkedin.com/posts/laudima_education-stem-womeninstem-share-7420204816250871808-PLXB?utm_source=share&utm_medium=member_desktop&rcm=ACoAADPhwlsBUaJ7sEKVFACZmkiNThVNnlWQ6Ak}{Top 50 National Winner of Children's Knowledge Olympics (OCI)} \\ Gained a Scholarhip of more than \$15,000 USD, over 10 years
+    \end{twocolentry}
+    
+    
+        
+    \section{Contests \& Competitions}
+
+    \subsection*{Programming Competitions}
+    
+    \begin{twocolentry}{
+    \textit{Apr 2024}}
+        \textbf{ICPC World Finals} \\
+        \textit{Honorable Mention, ACM}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Represented Mexico at world finals, placed in top 2\% of 50,000+ participants from 3,406 universities worldwide
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Mar 2023}}
+        \textbf{ICPC Latin America Regional} \\
+        \textit{3rd Place , ACM}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Won 3rd place nationally with 1,000+ teams competion. Qualified for World Finals in Egypt
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Oct 2022}}
+        \textbf{ICPC Gran Premio} \\
+        \textit{9th , ACM}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Qualified for nationals among more than 250 competing teams at national level
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Sep 2022}}
+        \textbf{14th Donald Knuth Programming Contest} \\
+        \textit{3rd Place Women's Category, ESCOM-IPN}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Competitive Programming Contest Sponsored by OmegaUp and Meta (+30 participants)
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Apr 2022}}
+        \href{https://drive.google.com/file/d/1SbdjUODpyMI0XFXeN1zFOS_6Cbnb2bIU/view?usp=sharing}{\textbf{Women in Programming Contest}} \\
+        \textit{2nd, Omega Up}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Monthly programming competition for the Latin American region female students (+50 participants)
+        \end{itemize}
+    \end{onecolentry}
+    
+    \subsection*{Mathematics Competitions}
+    
+    \begin{twocolentry}{
+    \textit{Jan 2021}}
+        \href{https://drive.google.com/file/d/1ZtVN7JKO9XPNuDcMjcniAIGWmAl4zKbT/view?usp=sharing}{\textbf{Euclid Mathematics Contest}} \\
+        \textit{School Medal Champion, University of Waterloo}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Best student in school with above-global-average score (15,000+ participants)
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Nov 2019}}
+        \textbf{National Mexican Mathematics Olympiad (OMM)} \\
+        \textit{Bronze Medal}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Bronze medal at national competition
+            \item Shortlisted for European Girls' Mathematical Olympiad (EGMO)
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Jun 2017}}
+        \textbf{ONMAPS \& OMMEB} \\
+        \textit{Silver Medals}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item National silver medals in mathematics competitions
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Nov 2015}}
+        \textbf{ONMAPS (National Math Olympiad)} \\
+        \textit{Bronze Medal}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item First national medal in mathematics olympiad held in Mexicali, Baja California
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Mar 2015}}
+        \textbf{Olympiad of Children's Knowledge (OCI)} \\
+        \textit{1st Place State, Top 50 national}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Academic Contest organized by the Ministry of Education in Mexico. Allow me to meet the President Enrique Peña Nieto
+            \item Awarded the BBVA Foundation Academic scholarship
+        \end{itemize}
+    \end{onecolentry}
+    \section{Teaching \& Mentorship}
+            \begin{twocolentry}{
+        \textit{Aug 2025 – Dec 2025}}
+            \href{https://www.fciencias.unam.mx/directorio/105756}{\textbf{Teaching Assistant}} \\
+            \textit{Universidad Nacional Autónoma de México (UNAM)}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{itemize}
+                \item Supporting Professor Enrique Francisco Soto Astorga in Theory of Computation (Group 7088), a foundational course covering formal languages, computational models, and the hierarchy of computation from finite automata to Turing machines.
+                \item Conducted two weekly tutorial sessions  for 38 undergraduate students. 
+            \end{itemize}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+        \textit{2018 – Present}}
+            \href{https://drive.google.com/file/d/1ixQEnQjX3rTgztzmtnyk2pbuH0Y1DHXw/view?usp=sharing}{\textbf{Math Olympiad Coach and Tutor}} \\
+            \textit{Mexican Mathematics Olympiad}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{itemize}
+                \item Trained over 300 students in mathematical problem-solving.
+                \item Co-organized the Olympic-Mathematical Festival and an art raffle to fundraise for students.
+                \item Four times Leader of the State Feminine Math Team at the Feminine National Mathematical Contest. Won the overall best team 4 four times. 
+            \end{itemize}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+        \textit{Aug 2022 – Jan 2023}}
+            \textbf{Competitive Programming Tutor and Club Organizer – PU++} \\
+            \textit{Universidad Nacional Autónoma de México (UNAM)}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{itemize}
+                \item Taught foundational and advanced programming algorithms.
+                \item Guided student teams that participated in the ICPC Grand Prix.
+                \item Expanded team participation from 3 to over 10 teams.
+            \end{itemize}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+        \textit{December 2022}}
+            \textbf{Volunteer Math Trainer } \\
+            \textit{Mate Olimpiadas Oaxaqueñas}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{itemize}
+                \item Taught mathematics to children ages 10-14 for one week
+                \item Prepared students for ONMAPS and OMMEB national competitions
+            \end{itemize}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+        \textit{June 2020}}
+            \textbf{Programming and Robotics Instructor} \\
+            \textit{Lebotics Team, Prepa Tec Campus Cuernavaca}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{itemize}
+                \item Taught free online programming courses to 25+ elementary and middle school students
+            \end{itemize}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+        \textit{Jan 2018 – May 2018}}
+            \textbf{Volunteer Educational Mentor} \\
+            \textit{Morelos Child Assistance Center (CAMI)}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{itemize}
+                \item Mentored Yeimi, a 6-year-old student, providing tutoring and educational activities twice per week for 4 months
+            \end{itemize}
+        \end{onecolentry}
+
+    
+    \section{Presentations \& Public Engagement}
+    \subsection{Speaker}
+    \begin{twocolentry}{
+    \textit{Oct 2025}}
+        \textbf{Panelist Participant} \\
+        \href{https://philcomp.org/details/}{\textit{International Conference on Philosophy of Computing}}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Topic: "Philosophy of Computing Research Group as of 2025: What is the uncomputable?"
+            \item First international conference covering cybernetic culture, technopolitics, gender and society in computing, and ethical problems in computing
+            \item Featured magistral guests: Marcello D'Agostino (University of Milan), Mel Andrews (Carnegie Mellon University), and Sarah Abel (UNAM)
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Mar 2025}}
+        \textbf{Panelist Participant} \\
+        \textit{Institutional Forum on Intellectual Property Law Reform}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Participated as part of the Philosophy of Computing Research Group
+            \item Addressed intellectual property and industrial property law reform
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Mar 2025}}
+        \textbf{Invited Speaker} \\
+        \textit{Day of the Girl and Women in Science, Secretaría de Educación}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Invited by the Secretary of Education for commemoration event
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Mar 2025}}
+        \textbf{Panelist Participant} \\
+        \textit{Mexico's National Development Plan}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Participated in the Sovereignty and Humanities, Science, Technology and Innovation committee
+            \item Contributed to national policy discussions organized by the Mexican Government
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Dec 2024}}
+        \textbf{Staff Member \& Organizer} \\
+        \href{https://philcomp.org/2nd-symposium-results/}{\textit{2nd Seminar on Philosophy of Computing}}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Organized seminar hosted by Philosophy of Computing Research Group at UNAM
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Dec 2023}}
+        \textbf{Presenter} \\
+        \href{https://philcomp.org/symposium-results/}{\textit{1st Seminar on Philosophy of Computing}}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Presented: "The impossibility of compressing reality: a computational critique of the techno-scientific promise"
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{May 2023}}
+        \textbf{Presenter} \\
+        \textit{1st Colloquium on Philosophy of Computing}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Presented: "Can we create AI for the good of humanity?"
+        \end{itemize}
+    \end{onecolentry}
+    
+    \subsection*{Assited Congresses \& Events}
+    
+    \begin{twocolentry}{
+    \textit{May 2025}}
+        \textbf{Technopolitics Congress} \\
+        \textit{National School of Anthropology and History (ENAH)}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Explored ethical and social implications in relationship with technological developments
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{May 2025}}
+        \textbf{AWS Community Day}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Attended AWS community technology event
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Apr 2025}}
+        \textbf{AI Summit} \\
+        \textit{IIMAS-UNAM, OpenAI, and Fintual}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Attended summit on AI developments and applications
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Aug 2023}}
+        \textbf{AWS Summit}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Attended AWS cloud computing summit
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Nov 2020}}
+        \href{https://drive.google.com/file/d/1bYDtSx11K67UaIPZ9ig27OuNHmTjKmv9/view?usp=sharing}{\textbf{1st Science \& Technology Congress}} \\
+        \textit{Red Mundial de Jóvenes Políticos del Estado de México}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Participated in inaugural congress on science and technology
+        \end{itemize}
+    \end{onecolentry}
+    
+    \section{Leadership \& Community Engagement}
+\begin{twocolentry}{
+\textit{August 2023 - Present}}
+    \textbf{Founder, Doors - Student Group}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Organized three conferences for 100+ students on topics including Open Source projects, internships, women empowerment in STEM, mental health awareness, and multidisciplinary collaboration in computer science.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.2 cm}
+\begin{twocolentry}{
+\textit{Sep 2024 - Jan 2025}}
+    \textbf{Member, Code Green - Student Group}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Multidisciplinary student initiative applying AI to climate change problems in southern Mexico.
+        \item Developed collaborative research on environmental impacts and AI-based mitigation strategies.
+    \end{highlights}
+\end{onecolentry}
+\begin{twocolentry}{
+\textit{Feb 2020 - Jun 2020}}
+    \textbf{Co-founder – Kits4Children}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Provided remote tutoring and educational kits to children affected by the COVID-19 pandemic.
+        \item Partnered with 'Einstein Ki Duniya' to offer free STEM education courses globally.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Global Programs \& Other Educational Experiences}    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Oct 2025}}
+        \href{https://www.linkedin.com/posts/laudima_aspireleaders-leadership-socialimpact-activity-7387257179462004736-cjpf?utm_source=share&utm_medium=member_desktop&rcm=ACoAADPhwlsBUaJ7sEKVFACZmkiNThVNnlWQ6Ak}{\textbf{Harvard Aspire Leaders Program}} \\
+        \textit{Aspire Institute - Harvard Buiness School}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Selected as one of 9,362 finalists from 45,000+ students worldwide
+            \item Leadership development program focused on global impact and social change
+        \end{itemize}
+    \end{onecolentry}
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Apr 2025}}
+        \textbf{Geometric Intelligence Workshop} \\
+        \textit{UNAM Mathematics Institute \& UC Santa Barbara}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item 1st Place Hackathon
+            \item Explored Topological Deep Learning, Graph Neural Networks (GNNs), and geometric analysis using Geomstats
+            \item Developed graph neural network to predict ADHD diagnoses in women using limited medical data
+        \end{itemize}
+    \end{onecolentry}
+    
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Jul 2024}}
+        \href{https://drive.google.com/file/d/14giU8Mu7fVinLdk-4YdDeTEnfkxkAIYg/view?usp=sharing}{\textbf{Competitive Programming Training Camp}} \\
+        \textit{Universidad Nacional de Rosario, Argentina}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Two-week intensive competitive programming bootcamp
+            \item Daily ICPC-style competitions and advanced algorithmic techniques
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Aug 2023}}
+        \textbf{Summer School in Quantum Computing} \\
+        \textit{Universidad Nacional Autónoma de México (UNAM)}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Completed quantum computing educational program
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Jan 2023}}
+        \textbf{Competitive Programming Training Camp} \\
+        \textit{Tecnológico de Monterrey, Guadalajara}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item 2nd Place, Mexico
+            \item Two-week intensive competitive programming bootcamp
+            \item Daily ICPC-style competitions - finished 2nd place
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{May 2021 – May 2022}}
+        \href{https://drive.google.com/file/d/17lDu2yddNO3yn5tOOt4c0CP3WKKH95Y-/view?usp=sharing}{\textbf{1000 Girls 1000 Futures}} \\
+        \textit{New York Academy of Sciences (NYAS)}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item International STEM mentorship program (10\% acceptance rate)
+            \item Connected with mentors and peers worldwide focused on STEM careers
+            \item Co-founded Kits4Children NGO through program connections
+        \end{itemize}
+    \end{onecolentry}
+    
+    \section{Software Projects}
+\begin{twocolentry}{
+        \textit{2025} \\
+        \textit{\href{https://github.com/arielmerinos/IngenieriaSoftware}{GitHub Repo}}}
+            \textbf{Impulsa tu Futuro}  (Power your future) \\
+            \textit{Software Engineering}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+            \begin{highlights}
+                \item Developed a full-stack web platform to share and track applications for internships, scholarships, and hackathons, featuring personalized recommendations, user profiles, notifications, and collaborative tools. \textbf{Tools:} Django, React, PostgreSQL
+            \end{highlights}
+\end{onecolentry}
+
+\begin{twocolentry}{
+\textit{2023} \\
+\textit{\href{https://github.com/laudima/Proyecto2-Figuras}{Github Repo}}}
+    \textbf{Geometric Figure Identifier} \\
+    \textit{Computational geometry}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Built an image‑processing tool that identifies geometric figures in white‑background images using contour detection and centroid calculation. Implemented distance‑based algorithms to determine vertex counts and classify shapes; visualized results with Matplotlib. \\
+        \textbf{Tools:} OpenCV, Python.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Publications \& Writing}
+    
+    \begin{twocolentry}{
+    \textit{2025}}
+        \textbf{Writer and Editor} ( In progress) \\
+        \textit{Book of Proceedings, International Conference on Philosophy of Computing}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Contributing author to the proceedings volume from the first international conference
+            \item Expanding conference paper into full article on computational critiques and AI ethics
+            \item Editorial work on proceedings publication
+        \end{itemize}
+    \end{onecolentry}
+    
+    \vspace{0.2 cm}
+    \begin{twocolentry}{
+    \textit{Aug 2019 – Feb 2020}}
+        \textbf{Editor and Translator} \\
+        \textit{Agua Simple Magazine, Mexican Institute of Water Technology (IMTA)}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Translated articles to English, German, and easy-reading formats for accessibility
+            \item Digital magazine focused on water conservation and environmental education for ages 13-17
+            \item Presented editorial work at the International Book Fair (FIL Minería), Mexico City
+            \item Contributed to making scientific content accessible to diverse audiences including people with disabilities
+        \end{itemize}
+\end{onecolentry}
+
+    % \section{Projects}
+        
+    %     \begin{twocolentry}{
+    %     \textit{\href{https://github.com/laudima/Proyecto2-Figuras}{Github Repo}}}
+    %         \textbf{Geometric Figure Identifier}
+    %     \end{twocolentry}
+
+    %     \vspace{0.10 cm}
+    %     \begin{onecolentry}
+    %         \begin{highlights}
+    %             \item Developed a program to analyze images with white backgrounds, identifying and categorizing geometric figures. Employed contour recognition to detect figure boundaries and calculate centroids.
+    %             \item Implemented algorithms to compute the distance between centroids and contours to determine the number of vertices for each figure.Visualized data using Matplotlib to generate detailed graphs and figures.
+    %             \item Tools Used: OpenCV, Python. 
+    %         \end{highlights}
+    %     \end{onecolentry}
+
+    \section{Certifications \& Courses}
+\begin{itemize}
+    \item Project Management Fundamentals, Google Career Certificate (2022)
+\item Foundations: Data, Data, Everywhere, Google Career Certificate (2022)
+\item Google Cloud Inroads Courses (2023)
+\item  "Bottom-Up Synthesis Methods" and "Nanoscience and Nanotechnology: Introduction to the Nanoworld", \href{https://drive.google.com/file/d/1zdWQs3N-bpAGuyL2D8AYksr0RMzkrAm2/view?usp=sharing}{Nanotechnology Applied Institute} (2020)
+\end{itemize}
+
+    
+    \section{Technologies}
+    
+        \begin{onecolentry}
+            \textbf{Programming Languages:} Python (4 yrs), Java(3 yrs), Javascript(2 years), C++ (3 yrs), Go (1 yr), Lean( 1 yr), Rust ( 1 yr). 
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Others:} Linux, Bash, Docker, Jenkins, YAML, PostgreSQL, OOP (Object Oriented Programming), GitHub Actions, Kubernetes, Node.js, Figma. 
+        \end{onecolentry}
+
+
+    
+    \section{Languages}
+    \textbf{Spanish}(Native) \hspace{2cm}
+    \textbf{English} (B2 - Intermediate Advance) \hspace{2cm}
+    \textbf{German} (A2 - Elementary) 
+\end{document}

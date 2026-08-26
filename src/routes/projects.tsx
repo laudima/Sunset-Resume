@@ -8,7 +8,7 @@ export const Route = createFileRoute("/projects")({
       {
         name: "description",
         content:
-          "Selected projects across data platforms, design systems, fintech, and open source by Laura Dimayuga.",
+          "Selected projects across AI research, agent workflows, automation, and community-building by Laura Dimayuga.",
       },
       {
         property: "og:title",
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/projects")({
       {
         property: "og:description",
         content:
-          "Selected projects across data platforms, design systems, fintech, and open source.",
+          "Selected projects across AI research, agent workflows, automation, and community-building.",
       },
     ],
   }),
@@ -33,8 +33,8 @@ function ProjectsPage() {
           Selected work
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-          A handful of projects across platforms, systems, and design. Each one
-          taught me something about restraint.
+          A handful of projects across AI research, agent workflows, and
+          community-building. Each one taught me something about restraint.
         </p>
       </header>
 
@@ -64,12 +64,14 @@ function ProjectsPage() {
                 </span>
               ))}
             </div>
-            <a
-              href={p.link}
-              className="mt-6 inline-block text-sm font-medium text-sunset transition-opacity hover:opacity-70"
-            >
-              View case study →
-            </a>
+            {p.link && p.link !== "#" && (
+              <a
+                href={p.link}
+                className="mt-6 inline-block text-sm font-medium text-sunset transition-opacity hover:opacity-70"
+              >
+                View case study →
+              </a>
+            )}
           </article>
         ))}
       </div>

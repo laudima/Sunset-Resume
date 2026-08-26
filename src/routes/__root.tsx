@@ -80,28 +80,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Laura Dimayuga — Software Engineer & Designer" },
+      { title: "Laura Dimayuga — Computer Science Student & Explainable AI Researcher" },
       {
         name: "description",
         content:
-          "Portfolio, projects, CV, and writing from Laura Dimayuga — a software engineer building calm, fast software between design and systems.",
+          "Portfolio, projects, and CV from Laura Dimayuga — a Computer Science student at UNAM working at the intersection of Artificial Intelligence and Philosophy of Science",
       },
       { name: "author", content: "Laura Dimayuga" },
       {
         property: "og:title",
-        content: "Laura Dimayuga — Software Engineer & Designer",
+        content: "Laura Dimayuga — Computer Science Student & Explainable AI Researcher",
       },
       {
         property: "og:description",
         content:
-          "Portfolio, projects, CV, and writing from a software engineer building calm, fast software between design and systems.",
+          "Portfolio, projects, and CV from a Computer Science student working at the intersection of Artificial Intelligence and Philosophy of Sciencez.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       {
         rel: "preconnect",
         href: "https://fonts.googleapis.com",
@@ -125,14 +125,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
         <script
           dangerouslySetInnerHTML={{ __html: themeInitScript }}
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         {children}
         <Scripts />
       </body>

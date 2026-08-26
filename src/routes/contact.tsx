@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { profile } from "@/lib/content";
+import { sendContactMessage } from "@/lib/contact";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -27,10 +28,30 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = {
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      subject: String(formData.get("subject") ?? ""),
+      message: String(formData.get("message") ?? ""),
+    };
+
+    setSending(true);
+    setError(null);
+    try {
+      await sendContactMessage({ data });
+      setSent(true);
+    } catch {
+      setError("Something went wrong sending your message. Please try again or email me directly.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -70,13 +91,16 @@ function ContactPage() {
               Elsewhere
             </p>
             <ul className="mt-2 space-y-1.5 text-sm">
-              {["GitHub", "LinkedIn", "Twitter / X"].map((l) => (
-                <li key={l}>
+              {[
+                { label: "GitHub", href: profile.github },
+                { label: "LinkedIn", href: profile.linkedin },
+              ].map((l) => (
+                <li key={l.label}>
                   <a
-                    href="#"
+                    href={l.href}
                     className="text-foreground transition-colors hover:text-sunset"
                   >
-                    {l}
+                    {l.label}
                   </a>
                 </li>
               ))}
@@ -137,15 +161,20 @@ function ContactPage() {
                   name="message"
                   required
                   rows={5}
+                  maxLength={5000}
                   placeholder="Tell me a little about your project…"
                   className="border-input bg-background focus:ring-sunset mt-2 block w-full resize-none rounded-lg border px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:ring-2"
                 />
               </div>
+              {error && (
+                <p className="mt-4 text-sm text-destructive">{error}</p>
+              )}
               <button
                 type="submit"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-colors md:w-auto"
+                disabled={sending}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-colors disabled:opacity-60 md:w-auto"
               >
-                Send message
+                {sending ? "Sending…" : "Send message"}
               </button>
             </form>
           )}
@@ -160,11 +189,13 @@ function Field({
   name,
   type = "text",
   placeholder,
+  maxLength = 200,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
+  maxLength?: number;
 }) {
   return (
     <div>
@@ -173,6 +204,7 @@ function Field({
         type={type}
         name={name}
         required
+        maxLength={maxLength}
         placeholder={placeholder}
         className="border-input bg-background focus:ring-sunset mt-2 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:ring-2"
       />

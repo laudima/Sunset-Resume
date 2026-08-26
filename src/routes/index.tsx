@@ -1,23 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { profile, projects, posts } from "@/lib/content";
+import { profile, projects } from "@/lib/content";
+import { CursorTrail } from "@/components/cursor-trail";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Laura Dimayuga — Software Engineer & Designer" },
+      { title: "Laura Dimayuga — Computer Science Student & Explainable AI Researcher" },
       {
         name: "description",
         content:
-          "I build calm, fast software at the seam between design and systems. Portfolio, projects, CV, and writing.",
+          "Computer Science student at UNAM working at the intersection of theoretical computing and explainable AI. Portfolio, projects, and CV.",
       },
       {
         property: "og:title",
-        content: "Laura Dimayuga — Software Engineer & Designer",
+        content: "Laura Dimayuga — Computer Science Student & Explainable AI Researcher",
       },
       {
         property: "og:description",
         content:
-          "I build calm, fast software at the seam between design and systems.",
+          "Computer Science student at UNAM working at the intersection of theoretical computing and explainable AI.",
       },
     ],
   }),
@@ -26,11 +27,11 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const featured = projects.slice(0, 3);
-  const latest = posts.slice(0, 2);
 
   return (
     <>
       <section className="sunset-glow relative overflow-hidden">
+        <CursorTrail />
         <div className="mx-auto max-w-6xl px-6 pt-28 pb-32 md:pt-40 md:pb-44">
           <div className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
             <div>
@@ -117,9 +118,9 @@ function Index() {
               How I work
             </h2>
             <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-              I lead small teams toward software that feels considered. I'm at
-              my best where a product decision, a design constraint, and a
-              systems problem sit in the same room.
+              I move between theoretical computing and the philosophy of
+              technology, always looking for the room where a hard proof, an
+              ethical question, and an explainability model meet.
             </p>
             <Link
               to="/cv"
@@ -130,10 +131,10 @@ function Index() {
           </div>
           <div className="grid grid-cols-2 gap-6">
             {[
-              ["8+", "Years shipping"],
-              ["40+", "Teams using my systems"],
-              ["1.2k", "GitHub stars"],
-              ["2M", "Events/day, realtime"],
+              ["100+", "Students mentored"],
+              ["Top 2%", "ICPC World Finals 2024"],
+              ["9,362", "Harvard Aspire Leaders finalist"],
+              ["1st", "Geometric Intelligence hackathon"],
             ].map(([n, l]) => (
               <div key={l} className="rounded-2xl border border-border p-6">
                 <p className="font-display text-3xl font-semibold text-foreground">
@@ -145,47 +146,6 @@ function Index() {
           </div>
         </div>
       </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="flex items-end justify-between gap-6">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Latest writing
-          </h2>
-          <Link
-            to="/blog"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            All posts →
-          </Link>
-        </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {latest.map((post) => (
-            <Link
-              key={post.slug}
-              to="/blog"
-              className="group border-border border-b pb-6"
-            >
-              <p className="text-xs text-muted-foreground">
-                {formatDate(post.date)} · {post.readingTime}
-              </p>
-              <h3 className="group-hover:text-sunset mt-2 font-display text-xl font-semibold text-foreground transition-colors">
-                {post.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {post.excerpt}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
     </>
   );
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }

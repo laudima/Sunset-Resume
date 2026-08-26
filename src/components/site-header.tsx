@@ -5,8 +5,8 @@ import { useTheme } from "@/hooks/use-theme";
 const NAV: { to: string; label: string }[] = [
   { to: "/", label: "Home" },
   { to: "/projects", label: "Projects" },
+  { to: "/gallery", label: "Gallery" },
   { to: "/cv", label: "CV" },
-  { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ];
 
