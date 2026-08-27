@@ -11,8 +11,7 @@ export function SiteFooter() {
               Laura Dimayuga
             </p>
             <p className="mt-1 max-w-xs text-sm text-muted-foreground">
-              Studying computation, explainability, and the philosophy of
-              technology.
+              Studying incomputability, AI explainability, and epistemic concerns in machine learning. 
             </p>
           </div>
 

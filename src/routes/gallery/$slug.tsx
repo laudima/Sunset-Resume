@@ -55,14 +55,46 @@ function GalleryDetailPage() {
       </div>
 
       <div className="mt-10 space-y-5">
-        {item.body.map((paragraph, i) => (
-          <p
-            key={i}
-            className="text-lg leading-relaxed text-muted-foreground"
-          >
-            {paragraph}
-          </p>
-        ))}
+        {item.body.map((paragraph, i) => {
+          const isHeading =
+            /^\d+\.\s/.test(paragraph) ||
+            [
+              "References",
+              "Referencias",
+              "Conclusions",
+              "Conclusiones",
+              "Notas",
+              "Resumen",
+              "Abstract",
+              "Bibliografía",
+            ].includes(paragraph);
+          if (isHeading) {
+            return (
+              <h2
+                key={i}
+                className="!mt-12 font-display text-xl font-semibold text-foreground first:!mt-0"
+              >
+                {paragraph}
+              </h2>
+            );
+          }
+          const isQuote = paragraph.startsWith("@quote ");
+          if (isQuote) {
+            return (
+              <blockquote
+                key={i}
+                className="border-sunset/60 border-l-[3px] py-0.5 pl-5 text-lg leading-relaxed text-foreground/80"
+              >
+                {paragraph.slice("@quote ".length)}
+              </blockquote>
+            );
+          }
+          return (
+            <p key={i} className="text-lg leading-relaxed text-muted-foreground">
+              {paragraph}
+            </p>
+          );
+        })}
       </div>
 
       {item.photos && item.photos.length > 0 && (

@@ -1,0 +1,294 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=1.6 cm, % seperation between body and page edge from the top
+    bottom=0.7 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=0.5 cm, % seperation between body and footer
+    % showframe % for debugging
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={laudimaCV-Lyft},
+    pdfauthor={Laura Itzel Rodríguez Dimayuga},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Laura Itzel Rodríguez Dimayuga - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{2\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.15 cm
+}{
+    % bottom space:
+    0.12 cm
+} % section title spacing
+
+\setlist[itemize]{topsep=0.03 cm, parsep=0.02 cm, itemsep=0.02 cm, partopsep=0pt} % tighten default itemize spacing
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.05 cm,
+        parsep=0.05 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0.2 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][r]{
+        \small\color{gray}\textit{August 2026}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Laura Itzel Rodríguez Dimayuga}
+
+        \vspace{0.3 cm}
+
+        \normalsize
+        \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm} Mexico City}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{mailto: laudima@ciencias.unam.mx}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}laudima@ciencias.unam.mx}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+52 777 476 1814}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}:+52 777 476 1814}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/laudima}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}laudima}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/laudima}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}laudima}}%
+    \end{header}
+    \vspace{0.3 cm - 0.3 cm}
+
+    \section{Summary}
+        \begin{onecolentry}
+            Software engineer graduating in June 2026 with production experience across CI/CD automation, cloud infrastructure (AWS, Google Cloud, Kubernetes), and object-oriented development. Founded and led engineering at an AI-workflow startup, owning architecture decisions from concept through delivery. Focused on writing well-tested, maintainable code and collaborating closely with cross-functional teams. Based in Mexico City.
+        \end{onecolentry}
+
+    \section{Technologies}
+        \begin{onecolentry}
+            \textbf{Programming Languages:} 
+            Python (5 yrs), Java (4 yrs), JavaScript (3 yrs), C++ (4 yrs), Rust (1 yr)
+        \end{onecolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \textbf{Infrastructure \& Tools:} AWS, Google Cloud, Docker, Kubernetes, Jenkins, GitHub Actions, Linux, Bash
+        \end{onecolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \textbf{Data \& Testing:} PostgreSQL, OOP, Playwright, Selenium, WebDriver IO, DataDog \\
+             \textbf{Languages:} Spanish (Native), English (B2), German (A2)
+        \end{onecolentry}
+
+    \section{Work Experience}
+
+    \begin{twocolentry}{
+    \textit{Sept 2023 – Present}}
+        \textbf{Software Quality Engineer Tools} (promoted from DevOps Engineering Intern) \\
+        \textit{Teradata}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Migrated CI/CD pipelines from GitLab to GitHub Actions, improving build automation across multiple projects
+            \item Built automated AI-driven testing workflows with agents and MCPs, cutting UI test creation time
+            \item Developed 500+ automated tests across three projects, using object-oriented test-framework design (Playwright, Selenium, WebDriver IO)
+            \item Designed and shipped a CI/CD pipeline for a desktop app using Jenkins, Docker, Kubernetes, and WebDriver IO
+            \item Operated across cloud platforms (AWS, Google Cloud) with production monitoring via DataDog
+        \end{itemize}
+    \end{onecolentry}
+
+    \vspace{0.12 cm}
+    \begin{twocolentry}{
+    \textit{May 2025 – Present}}
+        \textbf{CTO \& Co-Founder} \\
+        \textit{Renaissance}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Owned technical architecture and roadmap for an AI-agent workflow studio, leading projects from concept through delivery
+            \item Designed and shipped production AI agent workflows (OpenAI, Claude, DeepSeek) for business-process automation across five client engagements
+            \item Sold and delivered end-to-end automation systems, including a CRM-integrated customer service bot
+        \end{itemize}
+    \end{onecolentry}
+
+    \vspace{0.12 cm}
+    \begin{twocolentry}{
+    \textit{Aug 2023 - Sep 2023}}
+        \textbf{Web Developer} \\
+        \textit{One Connection}
+    \end{twocolentry}
+    \begin{onecolentry}
+        \begin{itemize}
+            \item Built and deployed a cloud-based HR web application on AWS with a relational database backend
+            \item Developed prediction models to recommend optimal communication channels and collection days
+        \end{itemize}
+    \end{onecolentry}
+
+    \section{Software Projects}
+        \begin{twocolentry}{
+                \textit{2025} \\
+                \textit{\href{https://github.com/arielmerinos/IngenieriaSoftware}{GitHub Repo}}}
+                    \textbf{Impulsa tu Futuro} (Power your future) \\
+                    \textit{Full-stack platform}
+        \end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Full-stack web platform to share and track applications for internships, scholarships, and hackathons, with personalized recommendations, user profiles, notifications, and collaborative tools. \\
+                \textbf{Tools:} Django, React, PostgreSQL
+            \end{highlights}
+        \end{onecolentry}
+
+    \section{Education}
+        \begin{twocolentry}{
+        \textit{Aug 2021 – Jun 2026}}
+            \textbf{Bachelor's Degree in Computer Science}
+
+            \textit{Universidad Nacional Autónoma de México (UNAM)}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item GPA: 94/100 \textbf{— Fields of Interest:} Theoretical Computing, AI, Parallel Computing
+            \end{highlights}
+        \end{onecolentry}
+
+    \section{Leadership \& Recognition}
+        \begin{twocolentry}{
+        \textit{2024} \\ \textit{Luxor, Egypt}}
+            \href{https://www.fciencias.unam.mx/noticias/2023/equipo-programacion-fc-rumbo-competencia-mundial-egipto}{\textbf{ICPC World Finals}} \\
+            \textit{Honorable Mention, top 2\% of 50,000+ participants worldwide}
+        \end{twocolentry}
+
+        \vspace{0.12 cm}
+        \begin{twocolentry}{
+        \textit{Aug 2023 – Present}}
+            \textbf{Founder, Doors — Student Group}
+        \end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Organized three conferences for 100+ students on open source, internships, and CS collaboration
+            \end{highlights}
+        \end{onecolentry}
+\end{document}
